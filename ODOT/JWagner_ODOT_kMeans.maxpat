@@ -40,6 +40,75 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-22",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 505.74999737739563, 1443.0, 192.0, 20.0 ],
+					"presentation_linecount" : 2,
+					"text" : "Composite phase response"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-20",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 505.74999737739563, 1318.0, 150.0, 20.0 ],
+					"text" : "Composite filter"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-18",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 463.249971151351929, 894.666640281677246, 255.208329319953918, 20.0 ],
+					"text" : "Make filters."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 648.249971151351929, 802.666640281677246, 255.208329319953918, 33.0 ],
+					"text" : "Here are frequency/gain estimates and derived Q for corrective filters."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-15",
+					"linecount" : 11,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 772.0, 441.0, 275.0, 154.0 ],
+					"text" : "Find nearest candidate point to each peak,\ngroup points by their nearest candidate point, \ncalculate centroids and update candidate points,\nremove unused points,\nrinse and repeat\n\n...then...\nfrom peak frequency estimates, \ncalculate variance for each candidate group,\ntreat variance as bandwidth for each peak,\ncalculate Q from variance and center frequency."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-12",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 488.874981045722961, 331.166659832000732, 268.0, 20.0 ],
+					"text" : "Seed some candidate values"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontface" : 1,
 					"fontsize" : 24.0,
 					"id" : "obj-13",
@@ -118,7 +187,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "bang", "bang" ],
-					"patching_rect" : [ 521.416666746139526, 331.166659832000732, 42.0, 22.0 ],
+					"patching_rect" : [ 976.416666746139526, 331.166659832000732, 42.0, 22.0 ],
 					"text" : "t b b b"
 				}
 
@@ -509,7 +578,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 46.0, 802.666640281677246, 732.29164445400238, 59.0 ],
+					"patching_rect" : [ 46.0, 802.666640281677246, 578.29164445400238, 59.0 ],
 					"text" : "/centroid_x : [2627.05, 4521.98, 6459.96, 7737.6, 14464.9],\n/centroid_y : [-26.0564, -8.54417, -18.2647, -14.423, -2.40794],\n/q : [15.2505, 37.1243, 26.5174, 3.73873, 2.15947]"
 				}
 
@@ -534,7 +603,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 521.416666746139526, 356.916661977767944, 24.0, 24.0 ]
+					"patching_rect" : [ 976.416666746139526, 356.916661977767944, 24.0, 24.0 ]
 				}
 
 			}
@@ -545,7 +614,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "FullPacket" ],
-					"patching_rect" : [ 521.416666746139526, 382.916661977767944, 35.0, 22.0 ],
+					"patching_rect" : [ 976.416666746139526, 382.916661977767944, 35.0, 22.0 ],
 					"text" : "o.var"
 				}
 
@@ -610,7 +679,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "FullPacket", "FullPacket" ],
-					"patching_rect" : [ 46.0, 424.999978065490723, 1007.833333492279053, 242.0 ],
+					"patching_rect" : [ 46.0, 420.999978065490723, 703.833333492279053, 246.0 ],
 					"text" : "/ind_c =aseq(0,length(/centroid_x)-1),\n/ind_p =aseq(0,length(/peakFreqs)-1),\n/dist=\"lambda([a1,a2,b1,b2],sqrt(pow(a1-b1,2)+pow(a2-b2,2)))\",\n/d=\"lambda([a, b],/dist(/peakFreqs[[a]], /rawAmps[[a]], /centroid_x[[b]], /centroid_y[[b]]))\",\n/cl_ind=\"lambda(i,sortidx(/d(i,/ind_c))[[0]])\",\n/variance=\"lambda(a, sqrt(sum(pow(a-avg(a), 2))/ (length(a)-1)))\",\n/nearest_centroid=map( /cl_ind, /ind_p),\n/varX=\"lambda(i, /variance(nth( /peakFreqs, nonzero(/nearest_centroid==i))))\",\n/bw_x=map(/varX, /ind_c),\n/func_avg_indx=\"lambda(i, avg( nth( /peakFreqs, nonzero(/nearest_centroid==i))))\",\n/centroid_x2=map(/func_avg_indx, /ind_c), \n/centroid_x=nth(/centroid_x2, nonzero(/centroid_x2<40000)),\n/func_avg_indy=\"lambda(i, avg( nth( /rawAmps, nonzero(/nearest_centroid==i))))\",\n/centroid_y2=map(/func_avg_indy, /ind_c),\n/centroid_y=-nth(/centroid_y2, nonzero(/centroid_y2<40000)),\n/q=/centroid_x / (2*/bw_x)"
 				}
 
@@ -683,7 +752,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-35", 1 ],
-					"midpoints" : [ 55.5, 677.0, 1068.0, 677.0, 1068.0, 366.0, 558.0, 366.0, 558.0, 378.0, 546.916666746139526, 378.0 ],
+					"midpoints" : [ 55.5, 669.0, 1068.0, 669.0, 1068.0, 365.0, 1011.0, 365.0, 1011.0, 366.0, 1001.916666746139526, 366.0 ],
 					"order" : 0,
 					"source" : [ "obj-3", 0 ]
 				}
@@ -815,7 +884,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-8", 0 ],
-					"midpoints" : [ 55.5, 327.083329916000366, 530.916666746139526, 327.083329916000366 ],
+					"midpoints" : [ 55.5, 327.083329916000366, 985.916666746139526, 327.083329916000366 ],
 					"order" : 0,
 					"source" : [ "obj-6", 0 ]
 				}
