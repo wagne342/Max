@@ -70,13 +70,13 @@
 				"box" : 				{
 					"fontface" : 0,
 					"id" : "obj-15",
-					"linecount" : 6,
+					"linecount" : 2,
 					"maxclass" : "o.display",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 22.0, 628.0, 1216.0, 97.0 ],
-					"text" : "/sublist/1 : [\"data\", 0, 25, 1000., 0., 19., 0., 0., 0, 150., 3., 0, 250., 3., 0, 350., 2., 0, 500., 19., 0, 500., 3., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/2 : [\"data\", 1, 22, 1000., 0., 19., 0., 0., 0, 150., 5., 0, 250., 5., 0, 350., 5., 0, 600., 17., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/3 : [\"data\", 2, 25, 1000., 0., 19., 0., 0., 0, 150., 7., 0, 250., 8., 0, 350., 9., 0, 600., 9., 0, 750., 13., 2, 963.934, 0., 0, \"linear\", \"data\"],\n/sublist/4 : [\"data\", 3, 31, 1000., 0., 19., 0., 0., 0, 150., 9., 0, 250., 10., 0, 439.344, 0., 0, 600., 5., 0, 708.197, 0., 0, 757.377, 0., 0, 850., 20., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/5 : [\"data\", 4, 16, 1000., 0., 19., 0., 10., 0, 150., 10., 0, 250., 10., 0, 600., 12., 0, \"linear\"]"
+					"patching_rect" : [ 22.0, 1051.0, 1216.0, 46.0 ],
+					"text" : "/sublist/1 : [\"data\", 0, 100, \"data\"],\n/sublist/2 : [\"data\", 0, 50]"
 				}
 
 			}
@@ -109,12 +109,12 @@
 				"box" : 				{
 					"bubble" : 1,
 					"id" : "obj-12",
-					"linecount" : 2,
+					"linecount" : 6,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 964.0, 514.5, 141.0, 37.0 ],
-					"text" : "This works with older versions of odot."
+					"patching_rect" : [ 964.0, 514.5, 141.0, 91.0 ],
+					"text" : "This works with older versions of odot that don't have the nonzero() function. Comments provided for clarity."
 				}
 
 			}
@@ -125,7 +125,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "FullPacket" ],
-					"patching_rect" : [ 22.0, 601.0, 91.0, 22.0 ],
+					"patching_rect" : [ 22.0, 1024.0, 91.0, 22.0 ],
 					"text" : "o.select /sublist"
 				}
 
@@ -147,13 +147,13 @@
 					"fontface" : 0,
 					"fontsize" : 12.0,
 					"id" : "obj-8",
-					"linecount" : 7,
+					"linecount" : 43,
 					"maxclass" : "o.expr.codebox",
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "FullPacket", "FullPacket" ],
-					"patching_rect" : [ 22.0, 482.0, 940.0, 116.0 ],
-					"text" : "/comp=\"lambda([i,j], strcmp(i, /mc_function[[j]])==0)\",\n/ind=map(/comp, nfill(133, \"data\"), aseq(0, length(/mc_function)-1)),\n/indx=[],\n/indx=map( lambda(i, if(/ind[[i]], list(/indx, i))), aseq(0, length(/ind)-1)),\n/ind=/indx,\n/ind=list(/ind, length(/mc_function)-1),\nmap(lambda(i, assign(\"/sublist/\" + i, nth(/mc_function, aseq(/ind[[i-1]], /ind[[i]])))), aseq(1, length(/ind)-1))"
+					"patching_rect" : [ 22.0, 396.5, 940.0, 619.0 ],
+					"text" : "##Here is a function that returns true if an element 'j' in /mc_function equals string 'i'\n/comp=\"lambda([i,j], \n          strcmp(i, /mc_function[[j]])==0\n       )\",\n\n#We now map the /comp function to every index in /mc_function checking for the word \"data\"\n/ind=map(\n         /comp, \n         nfill(133, \"data\"), \n         aseq(0, length(/mc_function)-1)\n        ),\n#/ind is now a boolean list of true/false tracking which indices in /mc_function == \"data\"\n# We now need to extract the indices of /ind==true\n# Start with an empty list\n/indx=[],   \n\n#iterate through /ind and add the index of any 'true' element to the list /indx\n/indx=map( \n       lambda(i, \n\t\t\t          if(/ind[[i]], list(/indx, i))\n       ), \n       aseq(0, length(/ind)-1)\n      ),\n\n#/ind is now a list of indexes in /mc_function that contain the word \"data\"\n# We no longer need the true/false list, so lets write /indx to /ind, delete /indx\n/ind=/indx,\ndelete(/indx),\n\n#Add the length of this list as the last element of /ind (this makes the next step easier)\n/ind=list(/ind, length(/mc_function)-1),\n\n#We now construct as many sublists as necessary by creating new lists for each index in /ind\n#The first element of each sublist is the word \"data\", the last element of each list is one before \"data\"\n# (or one before the length of list)\nmap(\n    lambda(i, \n       assign(\"/sublist/\" + i, \n       nth(/mc_function, aseq(/ind[[i-1]], /ind[[i]]))\n       )\n    ), \n    aseq(1, length(/ind)-1)\n)"
 				}
 
 			}
@@ -175,13 +175,13 @@
 					"fontface" : 0,
 					"fontsize" : 12.0,
 					"id" : "obj-3",
-					"linecount" : 6,
+					"linecount" : 2,
 					"maxclass" : "o.display",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 77.0, 346.0, 1161.0, 104.0 ],
-					"text" : "/sublist/1 : [\"data\", 0, 25, 1000., 0., 19., 0., 0., 0, 150., 3., 0, 250., 3., 0, 350., 2., 0, 500., 19., 0, 500., 3., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/2 : [\"data\", 1, 22, 1000., 0., 19., 0., 0., 0, 150., 5., 0, 250., 5., 0, 350., 5., 0, 600., 17., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/3 : [\"data\", 2, 25, 1000., 0., 19., 0., 0., 0, 150., 7., 0, 250., 8., 0, 350., 9., 0, 600., 9., 0, 750., 13., 2, 963.934, 0., 0, \"linear\", \"data\"],\n/sublist/4 : [\"data\", 3, 31, 1000., 0., 19., 0., 0., 0, 150., 9., 0, 250., 10., 0, 439.344, 0., 0, 600., 5., 0, 708.197, 0., 0, 757.377, 0., 0, 850., 20., 0, 1000., 0., 0, \"linear\", \"data\"],\n/sublist/5 : [\"data\", 4, 16, 1000., 0., 19., 0., 10., 0, 150., 10., 0, 250., 10., 0, 600., 12., 0, \"linear\"]"
+					"patching_rect" : [ 77.0, 346.0, 1161.0, 48.0 ],
+					"text" : "/sublist/1 : [\"data\", 0, 100, \"data\"],\n/sublist/2 : [\"data\", 0, 50]"
 				}
 
 			}
